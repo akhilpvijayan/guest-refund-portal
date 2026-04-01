@@ -325,12 +325,38 @@ export default function RefundForm() {
             </AnimatePresence>
           </motion.div>
 
-          <motion.div variants={itemVars} className="pt-4">
+          <motion.div variants={itemVars} className="pt-4 flex gap-3">
+            <motion.button
+              whileHover={isSubmitting ? {} : { scale: 1.015 }}
+              whileTap={isSubmitting ? {} : { scale: 0.98 }}
+              type="button"
+              disabled={isSubmitting}
+              onClick={() => {
+                setFormData({
+                  fullName: '',
+                  email: '',
+                  bookingRef: '',
+                  bookingDate: '',
+                  refundReason: '',
+                  additionalDetails: ''
+                });
+                setFiles([]);
+                setErrors({});
+                setTouched({});
+                if (fileInputRef.current) fileInputRef.current.value = '';
+              }}
+              className={`py-4 px-6 rounded-xl text-[16px] font-bold border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 bg-white/60 dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 focus:outline-none
+                ${isSubmitting ? 'opacity-40 cursor-not-allowed' : ''}
+              `}
+            >
+              Clear
+            </motion.button>
+
             <motion.button
               whileHover={isSubmitting ? {} : { scale: 1.015 }}
               whileTap={isSubmitting ? {} : { scale: 0.98 }}
               type="submit" disabled={isSubmitting}
-              className={`relative w-full py-4 px-6 rounded-xl text-[16px] font-bold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 focus:outline-none overflow-hidden group
+              className={`relative flex-1 py-4 px-6 rounded-xl text-[16px] font-bold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 focus:outline-none overflow-hidden group
                 ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-xl hover:shadow-blue-500/30'}
               `}
             >
@@ -339,7 +365,7 @@ export default function RefundForm() {
               <span className="flex items-center justify-center relative z-10 transition-transform duration-300">
                 {isSubmitting ? (
                   <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center">
-                     <Loader2 className="w-5 h-5 mr-3 animate-spin" /> Processsing...
+                    <Loader2 className="w-5 h-5 mr-3 animate-spin" /> Processing...
                   </motion.div>
                 ) : 'Submit Request'}
               </span>
